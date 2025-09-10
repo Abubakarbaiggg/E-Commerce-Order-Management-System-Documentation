@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -12,8 +13,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-        return view('role.index',compact('roles'));
+        $roles = Role::get(['id','name']);
+        $permissions = Permission::get(['id','name']);
+        return view('role.index',compact('roles','permissions'));
     }
 
     /**
@@ -64,5 +66,8 @@ class RoleController extends Controller
     {
         $role->delete();
         return redirect()->route('role.index')->with('success', "$role->name Role Deleted Successfully.");
+    }
+    public function addPermissionToRole(Request $request){
+        dd($request->all());
     }
 }

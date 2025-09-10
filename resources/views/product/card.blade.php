@@ -73,7 +73,7 @@
                                 </tbody>
                             </table>
                             <div class="mt-4">
-                                {{ $orders->links('pagination::tailwind') }}
+                                {{ $orders->links() }}
                             </div>
                             {{-- <form action="{{ route('payment.process') }}" method="POST" class="flex items-end gap-4 mt-4">
                                 @csrf

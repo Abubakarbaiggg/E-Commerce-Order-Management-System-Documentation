@@ -59,9 +59,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="mt-4">
-                                {{-- {{ $products->links('pagination::tailwind') }} --}}
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OrderController;
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
     Route::resource('role',RoleController::class);
     Route::resource('permission',PermissionController::class);
+    Route::resource('user',UserController::class);
+    Route::post('addPermissionToRole',[RoleController::class,'addPermissionToRole'])->name('addPermissionToRole');
 
 });
 
