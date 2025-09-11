@@ -39,6 +39,7 @@
                                             <td class="px-6 py-4 border-b">{{ $i++ }}</td>
                                             <td class="px-6 py-4 border-b">{{ $permission->name }}</td>
                                             <td class="px-6 py-4 border-b">
+                                                
                                                 <div class="flex justify-center space-x-2">
                                                     <a href="{{ route('permission.edit', $permission->id) }}"
                                                         class="bg-transparent hover:bg-neutral-500 text-neutral-700  hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">

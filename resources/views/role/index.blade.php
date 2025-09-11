@@ -48,13 +48,14 @@
                                                         <div class="bg-white w-full max-w-lg p-6 rounded-2xl shadow-lg relative animate-fadeIn">
                                                             <label for="edit-modal-{{ $role->id }}" class="absolute top-3 right-4 text-gray-500 hover:text-gray-800 cursor-pointer text-2xl">&times;</label>
                                                             <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Assign Permission to {{$role->name}}</h2>
-                                                            <form action="{{ route('addPermissionToRole', $role->id) }}" method="POST" class="space-y-4">
+                                                            <form action="{{ route('addPermissionToRole') }}" method="POST" class="space-y-4">
                                                                 @csrf
+                                                                <input type="hidden" name="role_id" value="{{$role->id}}">
                                                                 <div>
-                                                                    <div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto rounded-lg">
+                                                                    <div class="grid grid-cols-2 gap-2 max-h-40 rounded-lg">
                                                                         @foreach ($permissions as $permission)
                                                                             <label class="flex items-center space-x-2">
-                                                                                <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500">
+                                                                                <input type="checkbox" name="permissions[]" {{ $role->permissions->contains($permission->id) ? 'checked' : '' }} value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500">
                                                                                 <span class="text-gray-700 text-sm">{{ $permission->name }}</span>
                                                                             </label>
                                                                         @endforeach

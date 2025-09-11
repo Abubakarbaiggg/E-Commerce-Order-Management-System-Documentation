@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -63,5 +64,11 @@ class PermissionController extends Controller
     {
         $permission->delete();
         return redirect()->route('permission.index')->with('success', "$permission->name Permission Deleted Successfully.");
+    }
+
+    public function assignPermissionsToUser(User $user,Request $request){
+        $permissions = Permission::whereIn('id',$request->permissions)->get();
+        $user->givePermissionTo($permissions);
+        return back()->with('success','Permission Assigned User Successfully.');
     }
 }

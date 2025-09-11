@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -13,9 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get(['id','name','email']);
-        $roles = Role::get(['id','name']);
-        return view('user.index',compact('users','roles'));
+        $users = User::get(['id', 'name', 'email']);
+        $roles = Role::get(['id', 'name']);
+        $permissions = Permission::get(['id', 'name']);
+        return view('user.index', compact('users', 'roles', 'permissions'));
     }
 
     /**
