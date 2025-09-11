@@ -17,12 +17,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="overflow-x-auto">
-                            @if (session('success'))
-                                <div class="p-4 mb-4 text-sm text-green-700 bg-white border border-green-300 rounded-lg shadow-sm"
-                                    role="alert">
-                                    <span class="font-medium">{{ session('success') }}</span>
-                                </div>
-                            @endif
+                          {{-- ya par tha wo alert --}}
                             <table class="w-full text-sm text-left border border-gray-200 shadow-md rounded-lg">
                                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                                     <tr>
