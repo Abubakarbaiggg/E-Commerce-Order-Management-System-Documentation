@@ -35,17 +35,18 @@
 
         <!-- Page Content -->
         <main>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" x-init="setTimeout(() => show = false, 2000)">
-                @if (session('success'))
-                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2000)" 
+            @if (session('success'))
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" x-init="setTimeout(() => show = false, 2000)">
+                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2000)"
                         class="fixed top-4 left-1/2 transform -translate-x-1/2 w-auto  p-4 text-sm text-green-700 bg-white border border-green-300 rounded-lg shadow-lg z-50"
                         role="alert">
                         <span class="font-medium">{{ session('success') }}</span>
                     </div>
-                @endif
-                {{ $slot }}
-            </div>
-        </main>
+                </div>
+            @endif
+            {{ $slot }}
+    </div>
+    </main>
 
     </div>
 </body>

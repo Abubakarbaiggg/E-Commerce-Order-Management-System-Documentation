@@ -13,7 +13,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::get(['id','name']);
+        $permissions = Permission::paginate(5,['id','name']);
         return view('permission.index',compact('permissions'));
     }
 
@@ -31,7 +31,7 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255','unique:permissions,name']
         ]);
         $permission = Permission::create($validate);
         return redirect()->route('permission.index')->with('success', "$permission->name Permission Created Successfully.");

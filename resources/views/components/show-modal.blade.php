@@ -11,7 +11,7 @@
 
     <!-- Modal -->
     <div class="fixed inset-0 bg-black bg-opacity-50 hidden peer-checked:flex justify-center items-center z-50">
-        <div class="bg-white w-full max-w-lg p-6 rounded-2xl shadow-lg relative animate-fadeIn">
+        <div class="bg-white w-full max-w-2xl p-6 rounded-2xl shadow-lg relative animate-fadeIn">
             <!-- Close -->
             <label for="{{ $id }}"
                 class="absolute top-3 right-4 text-gray-500 hover:text-gray-800 cursor-pointer text-2xl">&times;</label>
@@ -22,7 +22,7 @@
             <!-- Form -->
             <form action="{{ $action ?? ''}}" method="POST" class="space-y-3">
                 @csrf
-                <div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto p-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3 max-h-72 overflow-y-auto p-2">
                     {{ $slot }}
                 </div>
                 <div class="flex justify-end space-x-3 pt-4 border-t">
