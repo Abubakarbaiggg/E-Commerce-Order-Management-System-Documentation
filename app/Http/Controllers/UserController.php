@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get(['id', 'name', 'email']);
+        $users = User::with(['roles:id,name','roles.permissions:id,name','permissions:id,name'])
+                           ->get(['id', 'name', 'email']);
         $roles = Role::get(['id', 'name']);
         $permissions = Permission::get(['id', 'name']);
         return view('user.index', compact('users', 'roles', 'permissions'));

@@ -12,6 +12,7 @@ class Permission extends SpatiePermission
     protected $attributes = [
         'guard_name' => 'web',
     ];
+    
      protected function name():Attribute{
         return Attribute::make(
             get:fn(string $value) => ucfirst(strtolower($value)),

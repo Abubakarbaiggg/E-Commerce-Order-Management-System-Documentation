@@ -55,10 +55,13 @@
                                                             <i class="fa-solid fa-key mr-1"></i>
                                                         </x-slot>
                                                         @foreach ($permissions as $permission)
-                                                            <label class="flex items-center space-x-2">
-                                                                <input type="checkbox" name="permissions[]" {{$user->permissions->contains($permission->id) ? 'checked' : ''}} value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500">
-                                                                <span class="text-gray-700">{{ $permission->name }}</span>
-                                                            </label>
+                                                        <label class="flex items-center space-x-2
+                                                            {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'opacity-50 cursor-not-allowed' : ''}}">
+                                                            <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500"
+                                                                {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'checked disabled' : ''}}
+                                                                {{$user->permissions->contains('id', $permission->id) ? 'checked' : ''}}>
+                                                            <span class="text-gray-700">{{ $permission->name }}</span>
+                                                        </label>
                                                         @endforeach
                                                     </x-show-modal>
 
