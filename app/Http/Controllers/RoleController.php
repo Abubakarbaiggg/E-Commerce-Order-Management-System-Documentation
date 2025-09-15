@@ -6,15 +6,27 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Role view', only: ['index','show']),
+            new Middleware('permission:Role create', only: ['create','store']),
+            new Middleware('permission:Role edit', only: ['edit','update']),
+            new Middleware('permission:Role delete', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $roles = Role::get(['id', 'name']);
+        $roles = Role::cursorPaginate(5,['id', 'name']);
         $permissions = Permission::get(['id', 'name']);
         return view('role.index', compact('roles', 'permissions'));
     }
@@ -68,15 +80,14 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('role.index')->with('success', "$role->name Role Deleted Successfully.");
     }
-    public function addPermissionToRole(Request $request)
+    public function addPermissionToRole(Request $request,Role $role)
     {
-        $role = Role::findOrFail($request->role_id);
-        $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $permissions = Permission::whereIn('id', $request->permissions ?? [])->get();
         $role->syncPermissions($permissions);
         return back()->with('success', 'Permissions assigned successfully!');
     }
     public function assignRolesToUser(User $user,Request $request){
-        $roles = Role::whereIn('id',$request->roles)->get();
+        $roles = Role::whereIn('id',$request->roles ?? [])->get();
         $user->syncRoles($roles);
         return back()->with('success','Role Assigned User Successfully.');
     }

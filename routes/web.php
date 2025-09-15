@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('role',RoleController::class);
     Route::resource('permission',PermissionController::class);
     Route::resource('user',UserController::class);
-    Route::post('addPermissionToRole',[RoleController::class,'addPermissionToRole'])->name('addPermissionToRole');
+    Route::post('addPermissionToRole/{role}',[RoleController::class,'addPermissionToRole'])->name('addPermissionToRole');
     Route::post('assignPermissionsToUser/{user}', [PermissionController::class, 'assignPermissionsToUser'])->name('assignPermissionsToUser');
     Route::post('assignRolesToUser/{user}', [RoleController::class, 'assignRolesToUser'])->name('assignRolesToUser');
 

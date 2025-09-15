@@ -4,11 +4,6 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Users') }}
                 </h2>
-                <div>
-                    <a href="{{ route('product.create') }}"
-                        class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
-                        Add Product</a>
-                </div>
             </div>
         </x-slot>
 
@@ -28,64 +23,69 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $i = 1; @endphp
-                                    @foreach ($users as $user)
-                                        <tr class="bg-white hover:bg-gray-50">
-                                            <td class="px-6 py-4 border-b">{{ $i++ }}</td>
-                                            <td class="px-6 py-4 border-b">{{ $user->name }}</td>
-                                            <td class="px-6 py-4 border-b">{{ $user->email }}</td>
-                                            <td class="px-6 py-4 border-b">
-                                                <div class="flex justify-center items-center space-x-2">
-                                                    <!-- Assign Role Modal -->
-                                                    <x-show-modal :id="'roles-modal-'.$user->id" :title="'Assign Role to ' . $user->name" :action="route('assignRolesToUser', $user->id)">
-                                                        <x-slot name="trigger">
-                                                            <i class="fa-solid fa-user-tag mr-1"></i>
-                                                        </x-slot>
-                                                        @foreach ($roles as $role)
-                                                            <label class="flex items-center space-x-2">
-                                                                <input type="checkbox" name="roles[]" value="{{ $role->id }}" {{$user->roles->contains($role->id) ? 'checked' : ''}} class="rounded text-indigo-600 focus:ring-indigo-500">
-                                                                <span class="text-gray-700">{{ $role->name }}</span>
-                                                            </label>
-                                                        @endforeach
-                                                    </x-show-modal>
-
-                                                    <!-- Assign Permission Modal -->
-                                                        <x-show-modal :id="'permissions-modal-'.$user->id" :title="'Assign Permission to '.$user->name" :action="route('assignPermissionsToUser', $user->id)">
-                                                        <x-slot name="trigger">
-                                                            <i class="fa-solid fa-key mr-1"></i>
-                                                        </x-slot>
-                                                        @foreach ($permissions as $permission)
-                                                        <label class="flex items-center space-x-2
-                                                            {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'opacity-50 cursor-not-allowed' : ''}}">
-                                                            <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500"
-                                                                {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'checked disabled' : ''}}
-                                                                {{$user->permissions->contains('id', $permission->id) ? 'checked' : ''}}>
-                                                            <span class="text-gray-700">{{ $permission->name }}</span>
-                                                        </label>
-                                                        @endforeach
-                                                    </x-show-modal>
-
-                                                    <!-- Edit -->
-                                                    <a href="{{ route('product.edit', $user->id) }}" class="bg-transparent hover:bg-neutral-500 text-neutral-700 hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </a>
-
-                                                    <!-- Delete -->
-                                                    <form action="{{ route('product.destroy', $user->id) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    @can('User view')
+                                        @php $i = 1; @endphp
+                                        @foreach ($users as $user)
+                                            <tr class="bg-white hover:bg-gray-50">
+                                                <td class="px-6 py-4 border-b">{{ $i++ }}</td>
+                                                <td class="px-6 py-4 border-b">{{ $user->name }}</td>
+                                                <td class="px-6 py-4 border-b">{{ $user->email }}</td>
+                                                <td class="px-6 py-4 border-b">
+                                                    <div class="flex justify-center items-center space-x-2">
+                                                        <!-- Assign Role Modal -->
+                                                        @can('Assign role')
+                                                            <x-show-modal :id="'roles-modal-'.$user->id" :title="'Assign Role to ' . $user->name" :action="route('assignRolesToUser', $user->id)">
+                                                                <x-slot name="trigger">
+                                                                    <i class="fa-solid fa-user-tag mr-1"></i>
+                                                                </x-slot>
+                                                                @foreach ($roles as $role)
+                                                                    <label class="flex items-center space-x-2">
+                                                                        <input type="checkbox" name="roles[]" value="{{ $role->id }}" {{$user->roles->contains($role->id) ? 'checked' : ''}} class="rounded text-indigo-600 focus:ring-indigo-500">
+                                                                        <span class="text-gray-700">{{ $role->name }}</span>
+                                                                    </label>
+                                                                @endforeach
+                                                            </x-show-modal>
+                                                        @endcan
+                                                        <!-- Assign Permission Modal -->
+                                                        @can('User permission')
+                                                            <x-show-modal :id="'permissions-modal-'.$user->id" :title="'Assign Permission to '.$user->name" :action="route('assignPermissionsToUser', $user->id)">
+                                                                <x-slot name="trigger">
+                                                                    <i class="fa-solid fa-key mr-1"></i>
+                                                                </x-slot>
+                                                                @foreach ($permissions as $permission)
+                                                                <label class="flex items-center space-x-2
+                                                                    {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'opacity-50 cursor-not-allowed' : ''}}">
+                                                                    <input type="checkbox" name="permissions[]" value="{{ $permission->id }}" class="rounded text-indigo-600 focus:ring-indigo-500"
+                                                                        {{$user->roles->flatMap->permissions->contains('id', $permission->id) ? 'checked disabled' : ''}}
+                                                                        {{$user->permissions->contains('id', $permission->id) ? 'checked' : ''}}>
+                                                                    <span class="text-gray-700">{{ $permission->name }}</span>
+                                                                </label>
+                                                                @endforeach
+                                                            </x-show-modal>
+                                                        @endcan
+                                                        @can('User edit')
+                                                            <a href="{{ route('product.edit', $user->id) }}" class="bg-transparent hover:bg-neutral-500 text-neutral-700 hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('User delete')
+                                                            <form action="{{ route('product.destroy', $user->id) }}" method="post">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endcan
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endcan
                                 </tbody>
                             </table>
                             <div class="mt-4">
-                                {{-- {{ $users->links() }} --}}
+                                {{ $users->links() }}
                             </div>
                         </div>
                     </div>

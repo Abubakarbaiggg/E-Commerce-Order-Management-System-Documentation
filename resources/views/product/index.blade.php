@@ -4,12 +4,14 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Products') }}
                 </h2>
-                <div>
-                    <a href="{{ route('product.create') }}"
-                        class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
-                        Add Product
-                    </a>
-                </div>
+                @can('Product view')
+                    <div>
+                        <a href="{{ route('product.create') }}"
+                            class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
+                            Add Product
+                        </a>
+                    </div>
+                @endcan
             </div>
         </x-slot>
 
@@ -26,7 +28,6 @@
                                         <th class="px-6 py-3 border-b">Name</th>
                                         <th class="px-6 py-3 border-b">Price</th>
                                         <th class="px-6 py-3 border-b">Stock</th>
-                                        <th class="px-6 py-3 border-b">Description</th>
                                         <th class="px-6 py-3 border-b text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -41,7 +42,6 @@
                                             <td class="px-6 py-4 border-b">{{ $product->name }}</td>
                                             <td class="px-6 py-4 border-b">{{ $product->price }}</td>
                                             <td class="px-6 py-4 border-b">{{ $product->stock }}</td>
-                                            <td class="px-6 py-4 border-b">{{ $product->description }}</td>
                                             <td class="px-6 py-4 border-b">
                                                 <div class="flex justify-center space-x-2">
                                                     <a href="{{ route('order.show', $product->id) }}"
@@ -52,19 +52,23 @@
                                                         class="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white font-semibold py-2 px-4 border border-slate-500 hover:border-transparent rounded">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
+                                                    @can('Product edit')
                                                     <a href="{{ route('product.edit', $product->id) }}"
                                                         class="bg-transparent hover:bg-neutral-500 text-neutral-700  hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
-                                                    <form action="{{ route('product.destroy', $product->id) }}"
-                                                        method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button
-                                                            class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    @endcan
+                                                    @can('Product delete')
+                                                        <form action="{{ route('product.destroy', $product->id) }}"
+                                                            method="post">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button
+                                                                class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

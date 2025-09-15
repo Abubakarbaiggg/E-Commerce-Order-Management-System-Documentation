@@ -4,14 +4,14 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Roles') }}
                 </h2>
-                {{-- @can('Role create') --}}
+                @can('Role create')
                     <div>
                         <a href="{{ route('role.create') }}"
                             class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
                             Add Role
                         </a>
                     </div>
-                {{-- @endcan --}}
+                @endcan
             </div>
         </x-slot>
 
@@ -37,7 +37,8 @@
                                             <td class="px-6 py-4 border-b">
                                                 <div class="flex justify-center items-center  space-x-2">
                                                     <!-- Assign Permission Modal -->
-                                                        <x-show-modal :id="'permissions-modal-'.$role->id" :title="'Assign Permission to '.$role->name" :action="route('addPermissionToRole')">
+                                                    @can('Assign permission')
+                                                        <x-show-modal :id="'permissions-modal-'.$role->id" :title="'Assign Permission to '.$role->name" :action="route('addPermissionToRole',$role->id)">
                                                         <x-slot name="trigger">
                                                             <i class="fa-solid fa-user-check"></i>
                                                         </x-slot>
@@ -48,13 +49,14 @@
                                                             </label>
                                                         @endforeach
                                                     </x-show-modal>
-                                                    {{-- @can('Role edit') --}}
+                                                   @endcan
+                                                    @can('Role edit')
                                                         <a href="{{ route('role.edit', $role->id) }}"
                                                             class="bg-transparent hover:bg-neutral-500 text-neutral-700  hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
                                                             <i class="fa-solid fa-pen-to-square"></i>
                                                         </a>
-                                                    {{-- @endcan --}}
-                                                    {{-- @can('Role delete') --}}
+                                                    @endcan
+                                                    @can('Role delete')
                                                         <form action="{{ route('role.destroy', $role->id) }}"
                                                             method="post">
                                                             @method('DELETE')
@@ -64,7 +66,7 @@
                                                                 <i class="fa-solid fa-trash"></i>
                                                             </button>
                                                         </form>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
@@ -72,7 +74,7 @@
                                 </tbody>
                             </table>
                             <div class="mt-4">
-                                {{-- {{ $products->links('pagination::tailwind') }} --}}
+                                {{ $roles->links()}}
                             </div>
                         </div>
                     </div>

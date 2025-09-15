@@ -23,20 +23,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $i = 1 @endphp
-                                @foreach ($orders as $order)
-                                    <tr class="bg-white hover:bg-gray-50">
-                                        <td class="px-6 py-4 border-b">{{ $i++ }}</td>
-                                        <td class="px-6 py-4 border-b">{{ $order->user->name }}</td>
-                                        <td class="px-6 py-4 border-b">{{ $order->product->name }}</td>
-                                        <td class="px-6 py-4 border-b">{{ $order->product->price }}</td>
-                                        <td class="px-6 py-4 border-b">{{ $order->quantity }}</td>
-                                        <td class="px-6 py-4 border-b">{{ $order->status }}</td>
-                                        <td class="px-6 py-4 border-b">
-                                            {{ number_format($order->product->price * $order->quantity, 2, '.', ',') }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @can('Order view')
+                                    @php $i = 1 @endphp
+                                    @foreach ($orders as $order)
+                                        <tr class="bg-white hover:bg-gray-50">
+                                            <td class="px-6 py-4 border-b">{{ $i++ }}</td>
+                                            <td class="px-6 py-4 border-b">{{ $order->user->name }}</td>
+                                            <td class="px-6 py-4 border-b">{{ $order->product->name }}</td>
+                                            <td class="px-6 py-4 border-b">{{ $order->product->price }}</td>
+                                            <td class="px-6 py-4 border-b">{{ $order->quantity }}</td>
+                                            <td class="px-6 py-4 border-b">{{ $order->status }}</td>
+                                            <td class="px-6 py-4 border-b">
+                                                {{ number_format($order->product->price * $order->quantity, 2, '.', ',') }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endcan
                             </tbody>
                         </table>
                         <div class="mt-4">

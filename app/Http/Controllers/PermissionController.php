@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
-
-class PermissionController extends Controller
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+ 
+class PermissionController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Permission view', only: ['index','show']),
+            new Middleware('permission:Permission create', only: ['create','store']),
+            new Middleware('permission:Permission edit', only: ['edit','update']),
+            new Middleware('permission:Permission delete', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

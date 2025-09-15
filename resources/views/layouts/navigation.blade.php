@@ -16,36 +16,46 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @can('User view')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('User') }}
                     </x-nav-link>
                 </div>
+                @endcan
+                @can('Order view')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('order.index')" :active="request()->routeIs('order.index')">
                         {{ __('Order') }}
                     </x-nav-link>
                 </div>
+                @endcan
+                @can('Product view')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
                         {{ __('Product') }}
                     </x-nav-link>
                 </div>
+                @endcan
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('cardview')" :active="request()->routeIs('cardview')">
                         {{ __('Card') }}
                     </x-nav-link>
                 </div>
+                @can('Role view')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('role.index')" :active="request()->routeIs('role.index')">
                         {{ __('Role') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
-                        {{ __('Permission') }}
-                    </x-nav-link>
-                </div>
+                @endcan
+                @can('Permission view')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
+                            {{ __('Permission') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
             </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">

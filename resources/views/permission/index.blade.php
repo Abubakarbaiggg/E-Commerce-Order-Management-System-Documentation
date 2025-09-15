@@ -4,12 +4,14 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Permission') }}
                 </h2>
-                <div>
-                    <a href="{{ route('permission.create') }}"
-                        class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
-                        Add Permission
-                    </a>
-                </div>
+                @can('Permission create')
+                    <div>
+                        <a href="{{ route('permission.create') }}"
+                            class="bg-transparent hover:bg-neutral-500 text-neutral-700 font-semibold hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
+                            Add Permission
+                        </a>
+                    </div>
+                @endcan
             </div>
         </x-slot>
 
@@ -27,36 +29,40 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $i = 1; @endphp
-                                    @foreach ($permissions as $permission)
-                                        <tr class="bg-white hover:bg-gray-50">
-                                            <td class="px-6 py-4 border-b">{{ $i++ }}</td>
-                                            <td class="px-6 py-4 border-b">{{ $permission->name }}</td>
-                                            <td class="px-6 py-4 border-b">
-                                                
-                                                <div class="flex justify-center space-x-2">
-                                                    <a href="{{ route('permission.edit', $permission->id) }}"
-                                                        class="bg-transparent hover:bg-neutral-500 text-neutral-700  hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </a>
-                                                    <form action="{{ route('permission.destroy', $permission->id) }}"
-                                                        method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button
-                                                            class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    @can('Permission view')
+                                        @php $i = 1; @endphp
+                                        @foreach ($permissions as $permission)
+                                            <tr class="bg-white hover:bg-gray-50">
+                                                <td class="px-6 py-4 border-b">{{ $i++ }}</td>
+                                                <td class="px-6 py-4 border-b">{{ $permission->name }}</td>
+                                                <td class="px-6 py-4 border-b">
+                                                    <div class="flex justify-center space-x-2">
+                                                        @can('Permission edit')
+                                                            <a href="{{ route('permission.edit', $permission->id) }}"
+                                                                class="bg-transparent hover:bg-neutral-500 text-neutral-700  hover:text-white py-2 px-4 border border-neutral-500 hover:border-transparent rounded">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('Permission delete')
+                                                            <form action="{{ route('permission.destroy', $permission->id) }}" method="post"> 
+                                                                @method('DELETE') @csrf
+                                                                <button class="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endcan
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endcan
                                 </tbody>
                             </table>
-                             <div class="mt-4">
-                                {{ $permissions->links('pagination::tailwind') }}
-                            </div>
+                            @can('Permission view')
+                                <div class="mt-4">
+                                    {{ $permissions->links('pagination::tailwind') }}
+                                </div>
+                            @endcan
                         </div>
                     </div>
                 </div>
